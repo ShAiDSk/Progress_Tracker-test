@@ -38,14 +38,19 @@
                     <input type="date" name="deadline"
                         class="w-full border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg" required>
                 </div>
-
                 <!-- Save Button -->
-                <div class="pt-4">
-                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg text-lg font-semibold
-                                   hover:bg-blue-700 transition shadow">
-                        Save Goal
-                    </button>
+                <button type="submit"
+                    class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition">
+                    Save Goal
+                </button>
+
+                <div class="mt-4 flex justify-center gap-4">
+                    <a href="{{ route('goals.index') }}"
+                        class="px-6 py-2.5 rounded-lg bg-gray-600 text-white hover:bg-gray-500 transition">
+                        Cancel
+                    </a>
                 </div>
+
             </form>
         </div>
     </div>

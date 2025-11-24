@@ -1,5 +1,4 @@
 <x-app-layout>
-
     {{-- Upgraded premium Goals index - includes SweetAlert2 confirmations, validation + flash handling, improved accessibility and animations --}}
 
     <style>
