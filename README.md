@@ -81,7 +81,7 @@ Every page is fully redesigned with a **premium dashboard feel**, animated gradi
 ---
 
 ### 📊 Dashboard  
-<img src="/dashboard-page.png/>
+<img src="/dashboard-page.png"/>
 
 ---
 
