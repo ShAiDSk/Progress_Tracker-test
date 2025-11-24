@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?size=28&duration=4000&color=3FA9F5&center=true&vCenter=true&width=600&lines=Progress+Tracker; Build+Habits.+Track+Progress.+Win+Consistently." />
+  <img src="https://readme-typing-svg.herokuapp.com?size=28&duration=4000&color=3FA9F5&center=true&vCenter=true&width=600&lines=Progress+Tracker;Build+Habits.;Track+Progress.+Win+Consistently." />
 </h1>
 
 <p align="center">
