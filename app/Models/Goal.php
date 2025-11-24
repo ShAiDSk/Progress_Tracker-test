@@ -13,5 +13,6 @@ class Goal extends Model
         'target_amount',
         'current_amount',
         'deadline',
+        'hidden', // <-- IMPORTANT
     ];
 }

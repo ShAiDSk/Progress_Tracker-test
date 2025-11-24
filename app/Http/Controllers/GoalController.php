@@ -10,9 +10,17 @@ class GoalController extends Controller
 {
     public function index()
     {
-        $goals = auth()->user()->goals ?? collect();
-        return view('goals.index', compact('goals'));
+        $goals = Goal::where('user_id', auth()->id())
+            ->where('hidden', false)
+            ->get();
+
+        $hiddenGoals = Goal::where('user_id', auth()->id())
+            ->where('hidden', true)
+            ->get();
+
+        return view('goals.index', compact('goals', 'hiddenGoals'));
     }
+
 
     public function create()
     {
@@ -23,10 +31,10 @@ class GoalController extends Controller
     {
         $validated = $request->validate(
             [
-            'title' => 'required',
-            'description' => 'nullable',
-            'target_amount' => 'nullable|numeric',
-            'deadline' => 'nullable|date',
+                'title' => 'required',
+                'description' => 'nullable',
+                'target_amount' => 'nullable|numeric',
+                'deadline' => 'nullable|date',
             ]
         );
 
@@ -38,59 +46,55 @@ class GoalController extends Controller
         return redirect()->route('goals.index')->with('success', 'Goal created!');
     }
 
-    public function markDone(Goal $goal)
-    {
-        $this->authorizeAction($goal);
-
-        if ($goal->target_amount) {
-            $goal->current_amount = $goal->target_amount;
-        } else {
-            // if no target, mark done by leaving current_amount as-is or set to 1
-            $goal->current_amount = max($goal->current_amount, 1);
-        }
-
-        $goal->save();
-
-        return redirect()->route('goals.index')->with('success', 'Goal marked as done.');
-    }
-
-    /**
-     * Reopen a completed goal (reset progress)
-     */
-    public function reopen(Goal $goal)
-    {
-        $this->authorizeAction($goal);
-
-        $goal->current_amount = 0;
-        $goal->save();
-
-        return redirect()->route('goals.index')->with('success', 'Goal reopened.');
-    }
-
-    /**
-     * Update progress (set current_amount)
-     */
     public function updateProgress(Request $request, Goal $goal)
     {
-        $this->authorizeAction($goal);
+        $request->validate([
+            'current_amount' => 'required|numeric|min:0'
+        ]);
 
-        $validated = $request->validate(
-            [
-            'current_amount' => 'required|numeric|min:0',
-            ]
-        );
+        $goal->update([
+            'current_amount' => $request->current_amount
+        ]);
 
-        $new = $validated['current_amount'];
+        return back()->with('success', 'Progress updated');
+    }
 
-        // clamp to target_amount if present
-        if ($goal->target_amount !== null && $goal->target_amount > 0) {
-            $new = min($new, $goal->target_amount);
+    public function markDone(Goal $goal)
+    {
+        if ($goal->target_amount) {
+            $goal->update(['current_amount' => $goal->target_amount]);
         }
+        return back()->with('success', 'Goal marked as completed');
+    }
 
-        $goal->current_amount = $new;
+    public function reopen(Goal $goal)
+    {
+        $goal->update(['current_amount' => 0]);
+        return back()->with('success', 'Goal reopened');
+    }
+
+    public function hide(Goal $goal)
+    {
+
+        $goal->hidden = true;
         $goal->save();
 
-        return redirect()->route('goals.index')->with('success', 'Progress updated.');
+        return back()->with('success', 'Goal hidden');
+    }
+
+    public function unhide(Goal $goal)
+    {
+
+        $goal->hidden = false;
+        $goal->save();
+
+        return back()->with('success', 'Goal restored');
+    }
+
+    public function destroy(Goal $goal)
+    {
+        $goal->delete();
+        return back()->with('success', 'Goal removed');
     }
 
     /**
