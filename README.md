@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?size=28&duration=4000&color=3FA9F5&center=true&vCenter=true&width=600&lines=Progress+Tracker;Build+Habits.+Track+Progress.+Win+Consistently." />
+  <img src="https://readme-typing-svg.herokuapp.com?size=28&duration=4000&color=3FA9F5&center=true&vCenter=true&width=600&lines=Progress+Tracker; Build+Habits.+Track+Progress.+Win+Consistently." />
 </h1>
 
 <p align="center">
@@ -66,32 +66,32 @@ Every page is fully redesigned with a **premium dashboard feel**, animated gradi
 > Replace the screenshot URLs with your actual GitHub image URLs.
 
 ### 🏡 Homepage  
-<img src="docs/screenshots/homepage.png"/>
+<img src="/home-page.png"/>
 
 ---
 
 ### 🔑 Login Page  
-<img src="docs/screenshots/login.png"/>
+<img src="/login-page.png"/>
 
 ---
 
 ### 📝 Register Page  
-<img src="docs/screenshots/register.png"/>
+<img src="/registe-page.png"/>
 
 ---
 
 ### 📊 Dashboard  
-<img src="docs/screenshots/dashboard.png"/>
+<img src="/dashboard-page.png/>
 
 ---
 
 ### 🎯 Goals List  
-<img src="docs/screenshots/goals-list.png"/>
+<img src="/goals-page.png"/>
 
 ---
 
 ### ➕ Create Goal  
-<img src="docs/screenshots/create-goal.png"/>
+<img src="/create-goal-page.png"/>
 
 ---
 
