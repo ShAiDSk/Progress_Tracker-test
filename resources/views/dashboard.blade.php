@@ -77,7 +77,7 @@
             <div class="glass-card rounded-xl p-6">
                 <p class="text-gray-300 text-sm mb-1">Total Goals</p>
                 <h3 class="text-4xl font-bold text-white">
-                    {{ Auth::user()->goals->count() }}
+                    {{ Auth::user()->goals->where('status', '!=', 'archived')->count() }}
                 </h3>
             </div>
 
@@ -85,7 +85,7 @@
             <div class="glass-card rounded-xl p-6">
                 <p class="text-gray-300 text-sm mb-1">Active Goals</p>
                 <h3 class="text-4xl font-bold text-white">
-                    {{ Auth::user()->goals->where('current_amount', '<', 'target_amount')->count() }}
+                    {{ Auth::user()->goals->where('status', 'active')->count() }}
                 </h3>
             </div>
 
@@ -93,7 +93,7 @@
             <div class="glass-card rounded-xl p-6">
                 <p class="text-gray-300 text-sm mb-1">Completed</p>
                 <h3 class="text-4xl font-bold text-white">
-                    {{ Auth::user()->goals->where('current_amount', '>=', 'target_amount')->count() }}
+                    {{ Auth::user()->goals->where('status', 'completed')->count() }}
                 </h3>
             </div>
 
@@ -105,7 +105,7 @@
 
             <div class="space-y-5">
 
-                @forelse (Auth::user()->goals->take(3) as $goal)
+                @forelse (Auth::user()->goals->where('status', 'active')->take(3) as $goal)
                     <div class="glass-card p-6 rounded-xl">
 
                         <div class="flex justify-between">

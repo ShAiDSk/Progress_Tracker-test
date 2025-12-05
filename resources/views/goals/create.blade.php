@@ -27,7 +27,7 @@
                 <!-- Target Amount -->
                 <div>
                     <label class="block text-gray-700 font-semibold mb-1">Target Amount (optional)</label>
-                    <input type="number" name="target_amount"
+                    <input type="number" name="target_value"
                         class="w-full border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg"
                         placeholder="Example: 1000" required>
                 </div>

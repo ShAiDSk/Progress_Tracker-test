@@ -32,7 +32,12 @@
     <!-- ⭐ Modern Floating Navbar -->
     <nav class="backdrop-blur-xl bg-white/5 border-b border-white/10 px-10 py-4 flex justify-between items-center fixed top-0 left-0 w-full z-50">
         <h1 class="text-3xl font-extrabold tracking-wide text-blue-400 hover:text-blue-300 transition">
-            Shaid's Page
+            <div class="text-xl md:text-2xl font-extrabold text-blue-300 tracking-tight hover:scale-[1.03] transition">
+                <a href="{{ route('home') }}"
+                    class="hover:text-blue-400 transition-all duration-300 {{ request()->routeIs('home') ? 'text-blue-400 font-semibold' : '' }}">
+                    Shaid's Page
+                </a>
+            </div>
         </h1>
 
         <div class="flex items-center gap-6 text-lg">

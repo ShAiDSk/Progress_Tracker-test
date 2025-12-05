@@ -157,40 +157,47 @@
         class="fixed top-6 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl glass rounded-2xl px-6 py-3 flex items-center justify-between z-40 shadow-xl">
         <div class="hidden md:flex items-center gap-3 text-sm text-white/80">
             <div class="text-xl md:text-2xl font-extrabold text-blue-300 tracking-tight hover:scale-[1.03] transition">
-                Shaid's Page</div>
+                <a href="{{ route('home') }}"
+                    class="hover:text-blue-400 transition-all duration-300 {{ request()->routeIs('login') ? 'text-blue-400 font-semibold' : '' }}">
+                    Shaid's Page
+                </a>
+            </div>
             <a href="#features" class="hover:text-blue-300 transition">Features</a>
 
             @guest
-                <a href="{{ route('register') }}" class="hover:text-blue-300 transition">Get started</a>
-                <a href="{{ route('login') }}" class="hover:text-blue-300 transition">Sign in</a>
+            <a href="{{ route('register') }}" class="hover:text-blue-300 transition">Get started</a>
             @endguest
 
             @auth
-                <span class="text-blue-300 font-semibold">
-                    Welcome, {{ Auth::user()->name }}
-                </span>
+            <span class="text-blue-300 font-semibold">
+                Welcome, {{ Auth::user()->name }}
+            </span>
 
-                <a href="{{ url('/dashboard') }}" class="hover:text-blue-300 transition">Dashboard</a>
-                <a href="{{ url('/goals') }}" class="hover:text-blue-300 transition">Goals</a>
+            <a href="{{ url('/dashboard') }}" class="hover:text-blue-300 transition">Dashboard</a>
+            <a href="{{ url('/goals') }}" class="hover:text-blue-300 transition">Goals</a>
             @endauth
         </div>
 
 
         <div class="flex items-center gap-3">
             @guest
-                <a href="{{ route('register') }}"
-                    class="px-4 py-2 bg-gradient-to-tr from-blue-500 to-indigo-500 rounded-lg text-sm font-semibold cta">
-                    Create account
-                </a>
+            <a href="{{ route('login') }}"
+                class="px-4 py-2 bg-gradient-to-tr from-blue-500 to-indigo-500 rounded-lg text-sm font-semibold cta">
+                Sign in
+            </a>
+            <a href="{{ route('register') }}"
+                class="px-4 py-2 bg-gradient-to-tr from-blue-500 to-indigo-500 rounded-lg text-sm font-semibold cta">
+                Create account
+            </a>
             @endguest
 
             @auth
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm font-semibold transition">
-                        Logout
-                    </button>
-                </form>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm font-semibold transition">
+                    Logout
+                </button>
+            </form>
             @endauth
         </div>
 
@@ -304,7 +311,7 @@
     <!-- ---------------- JS (particles + typing + parallax) ---------------- -->
     <script>
         // -------------------- particles --------------------
-        (function () {
+        (function() {
             const canvas = document.getElementById('particles');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
@@ -313,9 +320,13 @@
             const PARTICLES = Math.round((w * h) / 90000); // scale with screen
             let parts = [];
 
-            function rand(min, max) { return Math.random() * (max - min) + min; }
+            function rand(min, max) {
+                return Math.random() * (max - min) + min;
+            }
             class P {
-                constructor() { this.reset(); }
+                constructor() {
+                    this.reset();
+                }
                 reset() {
                     this.x = rand(0, w);
                     this.y = rand(0, h);
@@ -345,7 +356,10 @@
 
             function render() {
                 ctx.clearRect(0, 0, w, h);
-                for (let p of parts) { p.step(); p.draw(ctx); }
+                for (let p of parts) {
+                    p.step();
+                    p.draw(ctx);
+                }
                 requestAnimationFrame(render);
             }
 
@@ -361,25 +375,42 @@
         })();
 
         // -------------------- typing headline --------------------
-        (function () {
+        (function() {
             const headline = document.getElementById('hero-text');
             const phrases = [
                 "Build habits. Track progress. Win consistently.",
                 "Turn tiny daily wins into big results.",
                 "Focus. Measure. Improve."
             ];
-            let pi = 0, ci = 0, forward = true, offset = 0, skipCount = 0, skipDelay = 20, speed = 70;
+            let pi = 0,
+                ci = 0,
+                forward = true,
+                offset = 0,
+                skipCount = 0,
+                skipDelay = 20,
+                speed = 70;
+
             function type() {
                 const text = phrases[pi];
                 if (forward) {
-                    if (offset >= text.length) { skipCount++; if (skipCount == skipDelay) { forward = false; skipCount = 0; } }
+                    if (offset >= text.length) {
+                        skipCount++;
+                        if (skipCount == skipDelay) {
+                            forward = false;
+                            skipCount = 0;
+                        }
+                    }
                 } else {
-                    if (offset === 0) { forward = true; pi = (pi + 1) % phrases.length; }
+                    if (offset === 0) {
+                        forward = true;
+                        pi = (pi + 1) % phrases.length;
+                    }
                 }
 
                 const part = text.substr(0, offset);
                 headline.innerHTML = `<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">${part}</span>`;
-                if (forward) offset++; else offset--;
+                if (forward) offset++;
+                else offset--;
                 setTimeout(type, speed + Math.random() * 40);
             }
             // start after small delay (let hero fade)
@@ -387,7 +418,7 @@
         })();
 
         // -------------------- parallax (mouse follow) --------------------
-        (function () {
+        (function() {
             const container = document.querySelector('header');
             const parallaxEls = document.querySelectorAll('[data-parallax]');
             if (!container || !parallaxEls.length) return;
@@ -410,14 +441,18 @@
         })();
 
         // -------------------- small accessibility helper: reduce motion --------------------
-        (function () {
+        (function() {
             try {
                 const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
                 if (mq && mq.matches) {
-                    document.querySelectorAll('.fade-up').forEach(el => { el.style.animation = 'none'; el.style.opacity = 1; el.style.transform = 'none'; });
+                    document.querySelectorAll('.fade-up').forEach(el => {
+                        el.style.animation = 'none';
+                        el.style.opacity = 1;
+                        el.style.transform = 'none';
+                    });
                     document.getElementById('particles').style.display = 'none';
                 }
-            } catch (e) { }
+            } catch (e) {}
         })();
     </script>
 </body>

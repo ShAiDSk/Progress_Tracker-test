@@ -1,55 +1,66 @@
 <?php
 
+use App\Http\Controllers\GoalController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GoalController;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Authentication routes are included via Laravel Breeze
+require __DIR__.'/auth.php';
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Protected routes - require authentication
+Route::middleware(['auth', 'verified'])->group(function () {
+    
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
+    // Goal Management - Resource routes
     Route::resource('goals', GoalController::class);
-});
 
-// goals actions
-Route::middleware(['auth'])->group(function () {
-    Route::post('/goals/{goal}/done', [App\Http\Controllers\GoalController::class, 'markDone'])->name('goals.done');
-    Route::post('/goals/{goal}/reopen', [App\Http\Controllers\GoalController::class, 'reopen'])->name('goals.reopen');
-    Route::patch('/goals/{goal}/progress', [App\Http\Controllers\GoalController::class, 'updateProgress'])->name('goals.updateProgress');
-});
+    // ✅ BUTTON ACTION ROUTES (MATCH UI EXACTLY)
 
-Route::middleware(['auth'])->group(function () {
+    // Mark as Done
+    Route::post('/goals/{goal}/complete', [GoalController::class, 'complete'])
+        ->name('goals.done');
 
-    Route::get('/goals', [GoalController::class, 'index'])->name('goals.index');
-    Route::get('/goals/create', [GoalController::class, 'create'])->name('goals.create');
-    Route::post('/goals', [GoalController::class, 'store'])->name('goals.store');
+    // Reopen
+    Route::post('/goals/{goal}/reopen', [GoalController::class, 'reopen'])
+        ->name('goals.reopen');
 
-    // NEW ROUTES YOU NEED
-    Route::patch('/goals/{goal}/hide', [GoalController::class, 'hide'])->name('goals.hide');
-    Route::patch('/goals/{goal}/unhide', [GoalController::class, 'unhide'])->name('goals.unhide');
-    Route::delete('/goals/{goal}', [GoalController::class, 'destroy'])->name('goals.destroy');
+    // Hide / Archive (only ONE route, not two)
+    Route::post('/goals/{goal}/archive', [GoalController::class, 'archive'])
+        ->name('goals.archive');
 
-    Route::patch('/goals/{goal}/update-progress', [GoalController::class, 'updateProgress'])
+    // Increment progress (Start / Add +1)
+    Route::post('/goals/{goal}/increment', [GoalController::class, 'increment'])
+        ->name('goals.increment');
+
+    // Inline progress edit form
+    Route::post('/goals/{goal}/update-progress', [GoalController::class, 'increment'])
         ->name('goals.updateProgress');
 
-    Route::post('/goals/{goal}/done', [GoalController::class, 'markDone'])->name('goals.done');
-    Route::post('/goals/{goal}/reopen', [GoalController::class, 'reopen'])->name('goals.reopen');
-});
+    // Batch complete
+    Route::post('/goals/batch-complete', [GoalController::class, 'batchComplete'])
+        ->name('goals.batch-complete');
 
-require __DIR__.'/auth.php';
+    // Profile Management
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+    
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+    
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+});

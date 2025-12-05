@@ -14,6 +14,16 @@
         <form method="POST" action="{{ route('login') }}" class="space-y-5">
             @csrf
 
+            @if ($errors->any())
+            <div class="mb-4 rounded-lg bg-red-900/60 border border-red-500 px-4 py-3 text-red-200 text-sm">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             <!-- Email -->
             <div>
                 <label class="text-gray-100 text-sm font-semibold">Email</label>
@@ -44,10 +54,10 @@
                 </label>
 
                 @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}"
-                        class="text-blue-300 hover:text-blue-400 font-semibold hover:underline">
-                        Forgot password?
-                    </a>
+                <a href="{{ route('password.request') }}"
+                    class="text-blue-300 hover:text-blue-400 font-semibold hover:underline">
+                    Forgot password?
+                </a>
                 @endif
             </div>
 

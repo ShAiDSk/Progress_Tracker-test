@@ -12,7 +12,17 @@
         </p>
 
         <form method="POST" action="{{ route('register') }}" class="space-y-5">
+            
             @csrf
+            @if ($errors->any())
+            <div class="mb-4 rounded-lg bg-red-900/60 border border-red-500 px-4 py-3 text-red-200 text-sm">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
             <!-- Name -->
             <div>
